@@ -16,6 +16,8 @@ module.exports = {
 
     if (name in tasks) tasks[name].push(task);
     else tasks[name] = [task];
+
+    return task;
   },
 
   list(name) {

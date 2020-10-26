@@ -64,7 +64,7 @@ describe('Todo routes', () => {
         });
     });
 
-    xit('POST creates a new task for that user & responds with the created task', () => {
+    it('POST creates a new task for that user & responds with the created task', () => {
       todos.add('sarah', { content: 'task 1 for sarah' });
       todos.add('sarah', { content: 'task 2 for sarah' });
       return supertest
@@ -85,7 +85,7 @@ describe('Todo routes', () => {
         });
     });
 
-    xit('POST respects pre-existing completion status', () => {
+    it('POST respects pre-existing completion status', () => {
       return supertest
         .post('/users/sarah/tasks')
         .send({ content: 'a new task for sarah', complete: true }) // the HTTP request body
