@@ -3,7 +3,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { listPeople, list, add } = require('../models/todos');
+const { listPeople, list, add, complete } = require('../models/todos');
+
 
 router.get('/', (req, res, next) => {
   try {
@@ -13,13 +14,29 @@ router.get('/', (req, res, next) => {
   }
 });
 
+
 router.get('/:name/tasks', (req, res, next) => {
   try {
-    res.status(200).json(list(req.params.name));
+    let userTasks = list(req.params.name);
+
+    if(userTasks === undefined) {
+      res.status(404).send("No user or tasks!");
+    }
+    // Check for req.query object:  /users/billy/tasks?status=complete
+    if(req.query.status === 'complete') {
+      userTasks = userTasks.filter(task => task.complete === true);
+    }
+    // Check for req.query object:  /users/billy/tasks?status=active
+    if(req.query.status === 'active') {
+      userTasks = userTasks.filter(task => task.complete === false);
+    }
+
+    res.status(200).json(userTasks);
   } catch (error) {
     next(error);
   }
-})
+});
+
 
 router.post('/:name/tasks', (req, res, next) => {
   try {
@@ -27,8 +44,7 @@ router.post('/:name/tasks', (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
+});
+
 
 module.exports = router;
-
-
