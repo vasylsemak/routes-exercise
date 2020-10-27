@@ -26,9 +26,11 @@ module.exports = {
 
   complete(name, i) {
     if (tasks[name]) tasks[name][i].complete = true;
+    return tasks[name];
   },
 
   remove(name, i) {
     if (tasks[name]) tasks[name].splice(i, 1);
+    return tasks[name];
   },
 };
